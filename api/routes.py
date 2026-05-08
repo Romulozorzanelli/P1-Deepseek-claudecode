@@ -194,11 +194,11 @@ async def probe_count_tokens(_auth=Depends(require_api_key)):
     return _probe_response("POST, HEAD, OPTIONS")
 
 
-@router.get("/")
-async def root(
+@router.get("/api/status")
+async def status(
     settings: Settings = Depends(get_settings), _auth=Depends(require_api_key)
 ):
-    """Root endpoint."""
+    """API status endpoint."""
     return {
         "status": "ok",
         "provider": settings.provider_type,
@@ -206,9 +206,9 @@ async def root(
     }
 
 
-@router.api_route("/", methods=["HEAD", "OPTIONS"])
-async def probe_root(_auth=Depends(require_api_key)):
-    """Respond to compatibility probes for the root endpoint."""
+@router.api_route("/api/status", methods=["HEAD", "OPTIONS"])
+async def probe_status(_auth=Depends(require_api_key)):
+    """Respond to compatibility probes for the status endpoint."""
     return _probe_response("GET, HEAD, OPTIONS")
 
 

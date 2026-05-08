@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}IA para Iniciantes{% endblock %}</title>
+    <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="/" class="logo">IA para Iniciantes</a>
+            <nav class="site-nav">
+                <a href="/o-que-e-ia">O que é IA</a>
+                <a href="/mitos-e-verdades">Mitos e Verdades</a>
+                <a href="/ia-como-ferramenta">IA como Ferramenta</a>
+                <a href="/ias-famosas">IAs Famosas</a>
+                <a href="/ia-mercado-trabalho">IA no Mercado</a>
+            </nav>
+        </div>
+    </header>
+
+    {% if breadcrumb %}
+    <nav class="breadcrumb">
+        <div class="container">
+            <a href="/">Início</a>
+            <span class="separator">&rsaquo;</span>
+            <span>{{ breadcrumb }}</span>
+        </div>
+    </nav>
+    {% endif %}
+
+    <main class="site-main">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>IA para Iniciantes &mdash; Conteúdo educativo e gratuito para quem quer começar a entender Inteligência Artificial.</p>
+        </div>
+    </footer>
+</body>
+</html>

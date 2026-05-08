@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}IAs Mais Famosas — IA para Iniciantes{% endblock %}
+
+{% block content %}
+<article class="pagina-conteudo">
+    <h1>⭐ IAs Mais Famosas e Seus Usos</h1>
+    <p class="subtitulo">Conheça as principais ferramentas de IA disponíveis hoje: o que cada uma faz, quem criou e qual a melhor opção para você.</p>
+
+    <h2>IAs de texto e conversação</h2>
+
+    <div class="ias-grid">
+        <div class="ia-card">
+            <h3>ChatGPT</h3>
+            <div class="criador">OpenAI (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> conversação geral, escrita criativa, brainstorming, programação básica, tarefas do dia a dia. Versátil e com enorme base de usuários.</div>
+            <span class="preco">Gratuito (GPT-4o mini) / Pago (GPT-4o)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Claude</h3>
+            <div class="criador">Anthropic (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> análise de textos longos, programação avançada, raciocínio lógico, documentos técnicos. Conhecido por respostas detalhadas e contexto extenso.</div>
+            <span class="preco">Gratuito (Haiku) / Pago (Sonnet, Opus)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Gemini</h3>
+            <div class="criador">Google (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> integração com ecossistema Google (Gmail, Drive, YouTube), buscas atualizadas, análise de dados do Google Sheets.</div>
+            <span class="preco">Gratuito / Pago (Gemini Advanced)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Copilot</h3>
+            <div class="criador">Microsoft / GitHub (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> programação assistida dentro do VS Code, sugestão de código em tempo real, integração com ferramentas Microsoft.</div>
+            <span class="preco">Gratuito (básico) / Pago (Pro, Business)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>DeepSeek</h3>
+            <div class="criador">DeepSeek (China)</div>
+            <div class="uso"><strong>Melhor para:</strong> programação, raciocínio matemático, alternativa ao ChatGPT com foco em código. Modelo open-source disponível.</div>
+            <span class="preco">Gratuito</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Kimi</h3>
+            <div class="criador">Moonshot AI (China)</div>
+            <div class="uso"><strong>Melhor para:</strong> leitura e análise de documentos longos, contexto de até 2 milhões de tokens. Muito popular na China.</div>
+            <span class="preco">Gratuito (básico) / Pago</span>
+        </div>
+    </div>
+
+    <h2>IAs de imagem e multimídia</h2>
+
+    <div class="ias-grid">
+        <div class="ia-card">
+            <h3>DALL·E 3</h3>
+            <div class="criador">OpenAI (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> geração de imagens a partir de texto, ilustrações criativas, concept art. Integrado ao ChatGPT (assinantes Plus/Pro).</div>
+            <span class="preco">Créditos inclusos no ChatGPT Plus / API paga</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Midjourney</h3>
+            <div class="criador">Midjourney Inc. (EUA)</div>
+            <div class="uso"><strong>Melhor para:</strong> imagens artísticas de alta qualidade, estética refinada, texturas e estilos visuais. Referência em arte gerada por IA.</div>
+            <span class="preco">Pago (a partir de ~US$ 10/mês)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Stable Diffusion</h3>
+            <div class="criador">Stability AI (Reino Unido)</div>
+            <div class="uso"><strong>Melhor para:</strong> geração de imagens open-source, execução local no seu computador, controle total sobre o processo e personalização.</div>
+            <span class="preco">Gratuito (open-source)</span>
+        </div>
+
+        <div class="ia-card">
+            <h3>Leonardo.ai</h3>
+            <div class="criador">Leonardo AI (Austrália)</div>
+            <div class="uso"><strong>Melhor para:</strong> iniciantes em geração de imagens, interface amigável, assets para jogos e design. Créditos diários gratuitos.</div>
+            <span class="preco">Gratuito (créditos diários) / Pago</span>
+        </div>
+    </div>
+
+    <h2>Tabela comparativa rápida</h2>
+    <div style="overflow-x: auto;">
+    <table class="tabela-comparativa">
+        <thead>
+            <tr>
+                <th>Ferramenta</th>
+                <th>Tipo</th>
+                <th>Gratuito?</th>
+                <th>Melhor uso</th>
+                <th>Destaque</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>ChatGPT</td>
+                <td>Texto</td>
+                <td>Sim (básico)</td>
+                <td>Conversação geral</td>
+                <td>Mais popular, versátil</td>
+            </tr>
+            <tr>
+                <td>Claude</td>
+                <td>Texto</td>
+                <td>Sim (básico)</td>
+                <td>Textos longos, código</td>
+                <td>Contexto extenso, precisão</td>
+            </tr>
+            <tr>
+                <td>Gemini</td>
+                <td>Texto / Multimodal</td>
+                <td>Sim</td>
+                <td>Ecossistema Google</td>
+                <td>Integração Google, busca</td>
+            </tr>
+            <tr>
+                <td>Copilot</td>
+                <td>Código</td>
+                <td>Sim (básico)</td>
+                <td>Programação</td>
+                <td>Integrado ao VS Code</td>
+            </tr>
+            <tr>
+                <td>DeepSeek</td>
+                <td>Texto / Código</td>
+                <td>Sim</td>
+                <td>Programação, matemática</td>
+                <td>Open-source, gratuito</td>
+            </tr>
+            <tr>
+                <td>Midjourney</td>
+                <td>Imagem</td>
+                <td>Não</td>
+                <td>Arte digital</td>
+                <td>Melhor qualidade artística</td>
+            </tr>
+            <tr>
+                <td>DALL·E 3</td>
+                <td>Imagem</td>
+                <td>Não</td>
+                <td>Ilustrações criativas</td>
+                <td>Integrado ao ChatGPT</td>
+            </tr>
+            <tr>
+                <td>Stable Diffusion</td>
+                <td>Imagem</td>
+                <td>Sim</td>
+                <td>Geração local, personalização</td>
+                <td>Open-source, privacidade</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <h2>Qual escolher?</h2>
+    <div class="destaque">
+        <p><strong>Para começar, a dica é simples:</strong></p>
+        <ul>
+            <li>Quer conversar e tirar dúvidas? <strong>ChatGPT</strong> (versão gratuita) é o mais acessível.</li>
+            <li>Precisa analisar documentos longos ou programar? <strong>Claude</strong> é excelente.</li>
+            <li>Já usa muito o ecossistema Google? <strong>Gemini</strong> é a escolha natural.</li>
+            <li>Quer criar imagens artísticas? <strong>Midjourney</strong> (pago) ou <strong>Leonardo.ai</strong> (gratuito).</li>
+        </ul>
+        <p>Você não precisa escolher uma só — experimente várias e veja qual se adapta melhor ao seu jeito de trabalhar.</p>
+    </div>
+
+    <a href="/ia-mercado-trabalho" class="btn-voltar">Próximo: IA no Mercado de Trabalho →</a>
+</article>
+{% endblock %}

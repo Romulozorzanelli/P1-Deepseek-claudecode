@@ -4,10 +4,13 @@ import traceback
 from contextlib import asynccontextmanager
 from typing import Any
 
+from pathlib import Path
+
 from fastapi import FastAPI, Request
 from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from loguru import logger
 from starlette.types import Receive, Scope, Send
 
@@ -18,6 +21,7 @@ from providers.exceptions import ProviderError
 from .routes import router
 from .runtime import AppRuntime, startup_failure_message
 from .validation_log import summarize_request_validation_body
+from .web_routes import web_router
 
 
 @asynccontextmanager
@@ -96,6 +100,12 @@ def create_app(*, lifespan_enabled: bool = True) -> FastAPI:
 
     # Register routes
     app.include_router(router)
+    app.include_router(web_router)
+
+    # Mount static files
+    static_dir = Path(__file__).parent.parent / "static"
+    static_dir.mkdir(exist_ok=True)
+    app.mount("/static", StaticFiles(directory=str(static_dir)), name="static")
 
     # Exception handlers
     @app.exception_handler(RequestValidationError)
