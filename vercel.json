@@ -1,0 +1,22 @@
+{
+  "python_version": "3.12",
+  "builds": [
+    {
+      "src": "web_server.py",
+      "use": "@vercel/python",
+      "config": {
+        "requirementsFile": "requirements-vercel.txt"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "web_server.py"
+    }
+  ]
+}
