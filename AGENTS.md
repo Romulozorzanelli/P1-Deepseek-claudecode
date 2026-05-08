@@ -23,7 +23,8 @@ IMPORTANT: Ensure you've thoroughly reviewed the [AGENTS.md](AGENTS.md) file bef
 ## DEPLOY STATUS
 
 - Código no GitHub: sim (push feito para origin)
-- Site online: NÃO. Sugerido Railway, Render, ou Fly.io para deploy gratuito.
+- **Vercel**: Configurado. Arquivos: `vercel.json`, `web_server.py`, `requirements-vercel.txt`.
+- Para deploy: conectar repo no dashboard da Vercel e publicar.
 
 ## CODING ENVIRONMENT
 
