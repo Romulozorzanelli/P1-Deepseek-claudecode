@@ -6,7 +6,7 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-from api.web_data import (
+from web_data import (
     knowledge_items,
     category_map,
     study_modules,

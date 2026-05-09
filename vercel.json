@@ -1,9 +1,10 @@
 {
-  "functions": {
-    "web_server.py": {
-      "runtime": "python3.12"
+  "builds": [
+    {
+      "src": "web_server.py",
+      "use": "@vercel/python"
     }
-  },
+  ],
   "routes": [
     {
       "src": "/static/(.*)",
@@ -11,7 +12,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/web_server.py"
+      "dest": "web_server.py"
     }
   ]
 }
