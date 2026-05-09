@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Area de Estudos{% endblock %}
+{% block content %}
+<h1>Area de Estudos</h1>
+<p class="subtitulo">Modulos estruturados para aprender IA do zero ao avancado</p>
+
+{# Progresso geral #}
+{% set total_licoes = namespace(val=0) %}
+{% set concluidas = namespace(val=0) %}
+{% for m in modulos %}
+  {% for l in m.lessons %}
+    {% set total_licoes.val = total_licoes.val + 1 %}
+    {% if l.completed %}{% set concluidas.val = concluidas.val + 1 %}{% endif %}
+  {% endfor %}
+{% endfor %}
+
+<div class="progresso-geral">
+  <div>
+    <span style="font-size:.85rem;color:var(--text2)">Progresso geral</span>
+    <div class="valor">{{ ((concluidas.val / total_licoes.val * 100) if total_licoes.val > 0 else 0)|round(0,'floor')|int }}%</div>
+  </div>
+  <div style="font-size:.85rem;color:var(--text2)">
+    <span style="color:var(--success);margin-right:16px">✓ {{ concluidas.val }} concluidas</span>
+    <span>{{ total_licoes.val }} licoes</span>
+  </div>
+</div>
+
+{# Modulos #}
+{% for modulo in modulos %}
+<div class="modulo-card" style="margin-bottom:16px" x-data>
+  <div class="modulo-header" onclick="this.nextElementSibling.classList.toggle('hidden');this.querySelector('svg').classList.toggle('rotated')">
+    <div class="modulo-info">
+      <h3>{{ modulo.title }}</h3>
+      <p>{{ modulo.description }}</p>
+    </div>
+    <div class="modulo-meta">
+      <div>{{ modulo.progress }}%</div>
+      <div style="font-size:.75rem">{{ modulo.estimated_time }}</div>
+    </div>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition:transform .2s"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="modulo-licoes" {% if not loop.first %}style="display:none"{% endif %}>
+    {% for licao in modulo.lessons %}
+    <div class="licao-item">
+      <div class="licao-check {% if licao.completed %}checked{% endif %}"></div>
+      <span class="licao-titulo {% if licao.completed %}concluida{% endif %}">{{ licao.title }}</span>
+      <span class="licao-tempo">{{ licao.duration }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

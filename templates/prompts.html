@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Biblioteca de Prompts{% endblock %}
+{% block content %}
+<h1>Biblioteca de Prompts</h1>
+<p class="subtitulo">Colecoes de prompts prontos para usar com IAs generativas</p>
+
+{# Busca #}
+<div class="busca-wrapper">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+  <input type="text" class="busca-input" placeholder="Buscar prompts..." id="busca-prompts">
+</div>
+
+{# Colecoes - Filter buttons above #}
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px">
+  <button class="filtro-btn active" style="width:auto" onclick="filterPrompts('all', this)">Todas</button>
+  {% for col in colecoes %}
+  <button class="filtro-btn" style="width:auto" onclick="filterPrompts('{{ col.id }}', this)">{{ col.name }}</button>
+  {% endfor %}
+</div>
+
+{# Colecoes #}
+{% for col in colecoes %}
+<div class="colecao-section" data-categoria="{{ col.id }}">
+  <h2>{{ col.name }}</h2>
+  <p class="colecao-desc">{{ col.description }}</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    {% for p in col.prompts %}
+    <div class="prompt-card">
+      <h3>{{ p.title }}</h3>
+      <p class="desc">{{ p.description }}</p>
+      <div class="prompt-preview">{{ p.prompt[:120] }}...</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
+        {% for tag in p.tags %}<span class="tag">{{ tag }}</span>{% endfor %}
+      </div>
+      <button class="btn-copiar" onclick="copyPrompt(this, '{{ p.prompt|replace("'", "\\'")|replace('\n', '\\n') }}')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Copiar
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+
+<script>
+function filterPrompts(cat, btn) {
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.colecao-section').forEach(s => {
+    s.style.display = (cat === 'all' || s.dataset.categoria === cat) ? '' : 'none';
+  });
+}
+function copyPrompt(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copiado');
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copiado!';
+    setTimeout(() => {
+      btn.classList.remove('copiado');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copiar';
+    }, 2000);
+  });
+}
+</script>
+{% endblock %}

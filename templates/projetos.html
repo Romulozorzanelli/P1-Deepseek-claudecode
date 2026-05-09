@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Projetos{% endblock %}
+{% block content %}
+<h1>Projetos</h1>
+<p class="subtitulo">Gerencie seus projetos de IA no estilo Kanban</p>
+
+{% set colunas = [
+  {"id": "backlog", "nome": "Backlog", "cor": "#94a3b8"},
+  {"id": "progresso", "nome": "Em Progresso", "cor": "#f59e0b"},
+  {"id": "concluido", "nome": "Concluido", "cor": "#10b981"}
+] %}
+
+<div class="kanban-grid">
+  {% for col in colunas %}
+  {% set projetos_col = projetos|selectattr('status','equalto',col.id)|list %}
+  <div class="kanban-col">
+    <h3>
+      <span class="dot" style="background:{{ col.cor }}"></span>
+      {{ col.nome }}
+      <span class="count">{{ projetos_col|length }}</span>
+    </h3>
+    {% for proj in projetos_col %}
+    <div class="proj-card" style="border-left-color:{{ proj.color }}">
+      <h4>{{ proj.title }}</h4>
+      <p class="proj-desc">{{ proj.description }}</p>
+      <div class="proj-date">📅 {{ proj.due_date }}</div>
+      <div class="proj-tasks">
+        {% for task in proj.tasks %}
+        <div class="task">
+          <div class="task-dot {% if task.completed %}done{% endif %}"></div>
+          <span class="task-text {% if task.completed %}done{% endif %}">{{ task.title }}</span>
+        </div>
+        {% endfor %}
+      </div>
+      {% set done = proj.tasks|selectattr('completed','equalto',true)|list|length %}
+      {% set total = proj.tasks|length %}
+      <div style="margin-top:8px">
+        <div style="font-size:.75rem;color:var(--text2);margin-bottom:4px">{{ done }}/{{ total }} tarefas</div>
+        <div class="progress-bar"><div class="fill" style="width:{{ (done/total*100)|round|int }}%"></div></div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

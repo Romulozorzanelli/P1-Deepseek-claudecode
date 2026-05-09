@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Configuracoes{% endblock %}
+{% block content %}
+<h1>Configuracoes</h1>
+<p class="subtitulo">Personalize sua experiencia na plataforma</p>
+
+<div class="settings-grid">
+  {# Tema #}
+  <div class="setting-card">
+    <h2>Tema</h2>
+    <div class="theme-options">
+      <div class="theme-option" id="tema-claro" onclick="setTema('light')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <div class="theme-label">Claro</div>
+      </div>
+      <div class="theme-option" id="tema-escuro" onclick="setTema('dark')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <div class="theme-label">Escuro</div>
+      </div>
+    </div>
+  </div>
+
+  {# Perfil #}
+  <div class="setting-card">
+    <h2>Perfil</h2>
+    <div class="perfil-card">
+      <div class="avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="perfil-info">
+        <h3>Estudante de IA</h3>
+        <p>estudante@centralia.dev</p>
+        <p style="font-size:.75rem;color:var(--text2);margin-top:4px">Membro desde Janeiro 2025</p>
+      </div>
+    </div>
+  </div>
+
+  {# Sobre #}
+  <div class="setting-card">
+    <h2>Sobre a Plataforma</h2>
+    <p style="font-size:.85rem;color:var(--text2);line-height:1.8">
+      A Central de Conhecimento IA e uma plataforma educacional focada em Inteligencia Artificial, projetada para centralizar estudos, projetos e recursos em um unico lugar.
+    </p>
+    <div class="version-info" style="margin-top:16px">
+      <span>Versao 1.0.0</span>
+      <span>-</span>
+      <span>MVP</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function setTema(t) {
+  document.getElementById('tema-claro').classList.toggle('selected', t==='light');
+  document.getElementById('tema-escuro').classList.toggle('selected', t==='dark');
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('theme', t);
+}
+
+// Init
+var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+setTema(currentTheme);
+</script>
+{% endblock %}

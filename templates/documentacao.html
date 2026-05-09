@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Documentacao{% endblock %}
+{% block content %}
+<h1>Documentacao</h1>
+<p class="subtitulo">Guias, recursos e roadmaps da plataforma</p>
+
+<div class="docs-layout">
+  <div class="docs-sidebar">
+    {% for sec in secoes %}
+    <div class="doc-section">
+      <div class="doc-section-title {{ 'open' if sec.id == secao_ativa.id else '' }}" onclick="var s=this.nextElementSibling;s.classList.toggle('open');this.classList.toggle('open')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        {{ sec.title }}
+      </div>
+      <div class="doc-subpages {{ 'open' if sec.id == secao_ativa.id else '' }}">
+        {% for page in sec.pages %}
+        <a href="/documentacao?secao={{ sec.id }}&pagina={{ page.id }}" class="doc-subpage {{ 'active' if page.id == pagina_ativa.id else '' }}">{{ page.title }}</a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="docs-content">
+    <div class="breadcrumb-doc">
+      <span style="color:var(--text2)">{{ secao_ativa.title }}</span>
+      <span style="color:var(--text2)">/</span>
+      <span>{{ pagina_ativa.title }}</span>
+    </div>
+    {% set lines = pagina_ativa.content.split('\n') %}
+    {% set in_list = namespace(value=false) %}
+    {% for line in lines %}
+      {% set s = line.strip() %}
+      {% if s == '' %}
+        {% if in_list.value %}</ul>{% set in_list.value = false %}{% endif %}
+        <br>
+      {% elif s.startswith('## ') %}
+        {% if in_list.value %}</ul>{% set in_list.value = false %}{% endif %}
+        <h3>{{ s[3:] }}</h3>
+      {% elif s.startswith('- ') %}
+        {% if not in_list.value %}<ul>{% set in_list.value = true %}{% endif %}
+        <li>{{ s[2:] }}</li>
+      {% elif s.startswith('**') %}
+        {% if in_list.value %}</ul>{% set in_list.value = false %}{% endif %}
+        <p style="font-weight:600;margin-top:12px">{{ s }}</p>
+      {% else %}
+        {% if in_list.value %}</ul>{% set in_list.value = false %}{% endif %}
+        <p>{{ s }}</p>
+      {% endif %}
+    {% endfor %}
+    {% if in_list.value %}</ul>{% endif %}
+  </div>
+</div>
+{% endblock %}

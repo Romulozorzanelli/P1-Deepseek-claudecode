@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Favoritos{% endblock %}
+{% block content %}
+<h1>Favoritos</h1>
+<p class="subtitulo">Itens salvos de todas as secoes da plataforma</p>
+
+<div id="favoritos-container">
+  <div class="empty-state" id="fav-empty">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    <p style="font-size:1rem;font-weight:600;margin-bottom:8px">Nenhum favorito ainda</p>
+    <p style="font-size:.85rem">Clique no botao de favoritar nos itens para salva-los aqui.</p>
+  </div>
+  <div id="fav-lista"></div>
+</div>
+
+<script>
+var favs = JSON.parse(localStorage.getItem('ia-favoritos') || '[]');
+
+function carregarFavs() {
+  if (favs.length === 0) {
+    document.getElementById('fav-empty').style.display = '';
+    document.getElementById('fav-lista').innerHTML = '';
+    return;
+  }
+  document.getElementById('fav-empty').style.display = 'none';
+
+  var grouped = {};
+  favs.forEach(function(f) {
+    if (!grouped[f.type]) grouped[f.type] = [];
+    grouped[f.type].push(f);
+  });
+
+  var labels = {knowledge:'Conhecimento',prompt:'Prompts',project:'Projetos'};
+  var html = '';
+  Object.keys(grouped).forEach(function(type) {
+    var items = grouped[type];
+    html += '<div class="fav-group"><h3>' + (labels[type]||type) + ' <span class="badge badge-indigo" style="font-size:.7rem">' + items.length + '</span></h3>';
+    items.forEach(function(f) {
+      var data = new Date(f.addedAt).toLocaleDateString('pt-BR');
+      html += '<div class="fav-item">';
+      html += '<div class="fav-info"><div class="fav-titulo">' + escapar(f.title) + '</div>';
+      if (f.description) html += '<div class="fav-desc">' + escapar(f.description).substring(0,80) + '</div>';
+      html += '<div class="fav-meta">Salvo em ' + data + '</div></div>';
+      html += '<button class="btn-remover" onclick="removerFav(\'' + f.id + '\')">Remover</button>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  document.getElementById('fav-lista').innerHTML = html;
+}
+
+function removerFav(id) {
+  favs = favs.filter(function(f) { return f.id !== id; });
+  localStorage.setItem('ia-favoritos', JSON.stringify(favs));
+  carregarFavs();
+}
+
+function escapar(s) {
+  return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+carregarFavs();
+</script>
+{% endblock %}

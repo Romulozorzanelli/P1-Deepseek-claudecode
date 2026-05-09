@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Base de Conhecimento{% endblock %}
+
+{% block content %}
+    <div class="pagina-conteudo">
+        <h1>Base de Conhecimento</h1>
+        <p class="subtitulo">Artigos e referencias organizados por categoria</p>
+
+        <div class="busca-wrapper" style="display:flex;align-items:center;gap:10px;margin-bottom:28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:10px 16px;transition:background .2s,border-color .2s">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" name="busca" class="busca-input" value="{{ busca }}" placeholder="Buscar artigos..." style="border:none;outline:none;background:transparent;font-size:.95rem;color:var(--text);width:100%;font-family:inherit" onchange="window.location='?busca='+encodeURIComponent(this.value)+'{% if categoria_ativa %}&categoria={{ categoria_ativa }}{% endif %}'">
+        </div>
+
+        <div class="conhecimento-layout" style="display:flex;gap:28px;align-items:flex-start">
+            <div class="filtro-sidebar" style="min-width:200px;display:flex;flex-direction:column;gap:6px;position:sticky;top:80px">
+                <a href="/conhecimento" class="filtro-btn{% if not categoria_ativa %} active{% endif %}" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);padding:8px 12px;border-radius:var(--radius-sm);font-size:.9rem;font-weight:500;transition:background .15s,color .15s;{% if not categoria_ativa %}background:var(--primary-subtle);color:var(--primary){% endif %}">
+                    Todas
+                    <span class="filtro-count" style="font-size:.78rem;color:var(--text2);background:var(--bg);padding:1px 7px;border-radius:12px;margin-left:8px">{{ items|length if items else 18 }}</span>
+                </a>
+                {% for cat_id, cat_info in categorias.items() %}
+                {% set cat_items = items|selectattr('category','equalto',cat_id)|list %}
+                <a href="/conhecimento?categoria={{ cat_id }}" class="filtro-btn{% if categoria_ativa == cat_id %} active{% endif %}" style="display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--text);padding:8px 12px;border-radius:var(--radius-sm);font-size:.9rem;font-weight:500;transition:background .15s,color .15s;{% if categoria_ativa == cat_id %}background:var(--primary-subtle);color:var(--primary){% endif %}">
+                    {{ cat_info.name }}
+                    <span class="filtro-count" style="font-size:.78rem;color:var(--text2);background:var(--bg);padding:1px 7px;border-radius:12px;margin-left:8px">{{ cat_items|length if cat_items else 0 }}</span>
+                </a>
+                {% endfor %}
+            </div>
+
+            <div class="conhecimento-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;flex:1">
+                {% for item in items %}
+                <a href="/conhecimento/{{ item.id }}" class="knowledge-card" style="display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;text-decoration:none;color:var(--text);transition:box-shadow .2s,transform .2s,border-color .2s,background .2s">
+                    <div class="card-strip" style="height:4px;background:{% if item.category in categorias %}{{ categorias[item.category].color }}{% else %}#64748b{% endif %};flex-shrink:0"></div>
+                    <div class="card-body" style="padding:20px 24px 16px;display:flex;flex-direction:column;gap:8px;flex:1">
+                        <span class="badge {% if item.difficulty == 'iniciante' %}badge-green{% elif item.difficulty == 'intermediario' %}badge-amber{% elif item.difficulty == 'avancado' %}badge-red{% endif %}" style="display:inline-block;font-size:.72rem;font-weight:600;padding:2px 10px;border-radius:12px;width:fit-content;{% if item.difficulty == 'iniciante' %}background:var(--success-subtle);color:var(--success){% elif item.difficulty == 'intermediario' %}background:#fef3c7;color:#d97706{% elif item.difficulty == 'avancado' %}background:var(--danger-subtle);color:var(--danger){% endif %}">
+                            {{ item.difficulty|capitalize if item.difficulty == 'iniciante' else item.difficulty|capitalize if item.difficulty == 'intermediario' else item.difficulty|capitalize }}
+                        </span>
+                        <h3 style="font-size:1.05rem;font-weight:600;margin:0;letter-spacing:-.01em">{{ item.title }}</h3>
+                        <p style="font-size:.88rem;color:var(--text2);margin:0;line-height:1.5">{{ item.description }}</p>
+                        <div class="card-footer" style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:12px;border-top:1px solid var(--border);font-size:.78rem;color:var(--text2)">
+                            <span>{{ categorias[item.category].name if item.category in categorias else item.category }}</span>
+                            <span class="tag" style="display:inline-block;padding:1px 7px;border-radius:10px;background:var(--bg);font-size:.72rem">
+                                {% for tag in item.tags[:3] %}{{ tag }}{% if not loop.last %}, {% endif %}{% endfor %}
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                {% endfor %}
+
+                {% if not items %}
+                <div style="grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--text2)">
+                    <p style="font-size:1.1rem;margin-bottom:8px">Nenhum artigo encontrado.</p>
+                    <p style="font-size:.9rem">Tente outros termos de busca ou limpe os filtros.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .knowledge-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+            border-color: var(--primary);
+        }
+        .filtro-btn:hover {
+            background: var(--primary-subtle);
+            color: var(--primary);
+        }
+        @media(max-width:700px) {
+            .conhecimento-layout {
+                flex-direction: column;
+            }
+            .filtro-sidebar {
+                position: static;
+                flex-direction: row;
+                flex-wrap: wrap;
+                min-width: auto;
+            }
+            .filtro-sidebar .filtro-btn {
+                font-size: .82rem;
+                padding: 6px 10px;
+            }
+        }
+    </style>
+{% endblock %}

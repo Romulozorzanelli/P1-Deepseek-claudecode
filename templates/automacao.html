@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Automacao IA{% endblock %}
+{% block content %}
+<h1>Automacao IA</h1>
+<p class="subtitulo">Configure fluxos de trabalho automatizados com IA</p>
+<p style="font-size:.85rem;color:var(--text2);margin-bottom:20px">
+  <span style="display:inline-flex;align-items:center;gap:6px;background:var(--success-subtle);color:var(--success);padding:4px 12px;border-radius:999px;font-weight:600;font-size:.8rem">
+    ⚡ {{ workflows|selectattr('active','equalto',true)|list|length }} ativos
+  </span>
+</p>
+
+<div class="workflow-grid">
+  {% for wf in workflows %}
+  <div class="workflow-card" id="wf-{{ wf.id }}">
+    <div class="wf-header">
+      <h3>{{ wf.title }}</h3>
+      <button class="wf-toggle {{ 'on' if wf.active else 'off' }}" onclick="this.classList.toggle('on');this.classList.toggle('off')"></button>
+    </div>
+    <p class="wf-desc">{{ wf.description }}</p>
+    <div style="border-top:1px solid var(--border);padding-top:10px;margin-top:8px">
+      <div class="wf-detail"><span class="wf-label">Gatilho:</span> <span>{{ wf.trigger }}</span></div>
+      <div class="wf-detail"><span class="wf-label">Acao:</span> <span>{{ wf.action }}</span></div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
